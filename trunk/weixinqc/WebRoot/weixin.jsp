@@ -2,6 +2,6 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-WeiXin wx = new WeiXin(request,response,"mzai");
-wx.SendMessage();
+WeiXin wx = new WeiXin(request,response);
+
 %>
