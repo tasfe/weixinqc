@@ -3,12 +3,4 @@
 
  
   <!-- Configure java.util.logging -->
-  <system-properties>
-    <property name="test.com" value="haha,test"/>
-  </system-properties>
-
-  <static-files>
-      <include path="/**.html" expiration ="access 1 months" />
-  </static-files>
-
 </du-web-app>
