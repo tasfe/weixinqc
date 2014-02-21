@@ -11,11 +11,7 @@ import org.qcun.wx.message.ToNewsMessage;
 import org.qcun.wx.message.ToTextMessage;
 
 public final class WeixinUtil {
-	public static String OutFormatmsg(){
-		StringBuffer sb = new StringBuffer();
-		//sb.append("<xml><ToUserName><![CDATA[%1$s]]></ToUserName><FromUserName><![CDATA[%2$s]]></FromUserName><CreateTime>%3$s</CreateTime><MsgType><![CDATA[%4$s]]></MsgType>ArticleCount>%5$s</ArticleCount><Articles>%6$s</Articles><FuncFlag>0</FuncFlag></xml>";
-		return "";
-	}
+	
 	public static String OutFormatMsg(ToTextMessage toTextMessage) {
 		String textTpl = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><FromUserName><![CDATA[%2$s]]></FromUserName><CreateTime>%3$s</CreateTime><MsgType><![CDATA[%4$s]]></MsgType><Content><![CDATA[%5$s]]></Content><FuncFlag>0</FuncFlag></xml>";
 
@@ -31,7 +27,7 @@ public final class WeixinUtil {
 
 		String resultStr = String.format(textTpl, new Object[] {
 				toMusicMessage.getFromUserName(),
-				toMusicMessage.getToUserName(), toMusicMessage.getOnTime(),
+				toMusicMessage.getToUserName(),
 				toMusicMessage.getMsgType(), toMusicMessage.getTitle(),
 				toMusicMessage.getDescription(), toMusicMessage.getMusicUrl(),
 				toMusicMessage.gethQMusicUrl() });

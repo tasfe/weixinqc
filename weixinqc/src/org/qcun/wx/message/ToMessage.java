@@ -1,12 +1,30 @@
 package org.qcun.wx.message;
-public class ToMessage
+public abstract class ToMessage
 {
+	/**
+	 * 接收方帐号（收到的OpenID）
+	 */
   private String toUserName;
+  /**
+   * 开发者微信号
+   */
   private String fromUserName;
+  /**
+   * 消息类型
+   */
   private String msgType;
+  /**
+   * 消息创建时间 （整型）
+   */
   private String createTime;
-  private String onTime;
+  
 
+  /**
+   * 构造消息可发送字符串
+   * @return
+   */
+  protected abstract String initMsgStr();
+  
   public String getToUserName()
   {
     return this.toUserName;
@@ -39,12 +57,5 @@ public class ToMessage
   public void setCreateTime(String createTime) {
     this.createTime = createTime;
   }
-
-  public String getOnTime() {
-    return this.onTime;
-  }
-
-  public void setOnTime(String onTime) {
-    this.onTime = onTime;
-  }
+  
 }

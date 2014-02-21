@@ -1,4 +1,7 @@
 package org.qcun.wx.message;
+
+import org.qcun.wx.util.WeixinUtil;
+
 public class ToMediaMessage extends ToMessage
 {
   private String title;
@@ -25,4 +28,9 @@ public class ToMediaMessage extends ToMessage
   public void setDescription(String description) {
     this.description = description;
   }
+
+@Override
+protected String initMsgStr() {
+	return "";
+}
 }
