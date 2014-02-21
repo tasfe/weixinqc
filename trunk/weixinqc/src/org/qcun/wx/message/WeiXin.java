@@ -13,6 +13,9 @@ import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.qcun.wx.util.BusUtil;
+import org.qcun.wx.util.TransUtil;
+import org.qcun.wx.util.WeatherUtil;
 import org.qcun.wx.util.WeixinUtil;
 
 public class WeiXin
@@ -77,9 +80,65 @@ public class WeiXin
 	        if (document != null){
 	        	Element root = document.getRootElement();
 		        String msgType = root.elementText("MsgType");
+		        String touser = root.elementText("ToUserName");
+		        String fromuser = root.elementText("FromUserName");
 		        if ("text".equals(msgType))
 		        {
 		          String keyword = root.elementText("Content");
+		          
+		          //天气
+		          if(keyword!=null&&!"".equals(keyword)&&keyword.length()>2){
+		        	  String tianqi = keyword.substring(keyword.length()-2);
+		        	  if("天气".equals(tianqi)){
+		        		  String city = keyword.substring(0, keyword.length()-2).trim();
+		        		  String weather = WeatherUtil.getWeatherStr(city);
+		        		  ToTextMessage toTextMessage = new ToTextMessage();
+		        		  toTextMessage.setContent(weather);
+			              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
+			              toTextMessage.setFromUserName(fromuser);
+			              toTextMessage.setToUserName(touser);
+			              SendMessage(toTextMessage);
+			              return;
+		        	  }
+		          }
+		          //翻译
+		          if(keyword!=null&&!"".equals(keyword)&&keyword.length()>2){
+		        	  String fanyi = keyword.substring(0,2);
+		        	  if("翻译".equals(fanyi)){
+		        		  String str = keyword.substring(2).trim();
+		        		  String result = TransUtil.getTransStr(str);
+		        		  ToTextMessage toTextMessage = new ToTextMessage();
+		        		  toTextMessage.setContent(result);
+			              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
+			              toTextMessage.setFromUserName(fromuser);
+			              toTextMessage.setToUserName(touser);
+			              SendMessage(toTextMessage);
+			              return;
+		        	  }
+		          }
+		          //公交
+		          if(keyword!=null&&!"".equals(keyword)&&keyword.length()>2){
+		        	   String gongjiao = keyword.substring(0,2);
+		        	   if("公交".equals(gongjiao)){
+		        		   String str = keyword.substring(2);
+		        		   String result = BusUtil.getBuslineStr(str);
+			        		  ToTextMessage toTextMessage = new ToTextMessage();
+			        		  toTextMessage.setContent(result);
+				              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
+				              toTextMessage.setFromUserName(fromuser);
+				              toTextMessage.setToUserName(touser);
+				              SendMessage(toTextMessage);
+				              return;
+		        		   
+		        	   }
+		          }
+		          ToTextMessage toTextMessage = new ToTextMessage();
+	              toTextMessage.setContent("目前平台功能如下：\n【1】查天气，如输入：济南天气\n【2】 查公交，如输入：公交济南 119\n【3】翻译，如输入：翻译I love you\n更多内容，敬请期待...");
+	              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
+	              toTextMessage.setFromUserName(root.elementText("FromUserName"));
+	              toTextMessage.setToUserName(root.elementText("ToUserName"));
+	              SendMessage(toTextMessage);
+	              /*
 		          if("1".equals(keyword)){
 		        	  //构造一个图文消息
 		        	  TextImageMessage textImageMessage = new TextImageMessage();
@@ -100,27 +159,24 @@ public class WeiXin
 		              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
 		              toTextMessage.setFromUserName(root.elementText("FromUserName"));
 		              toTextMessage.setToUserName(root.elementText("ToUserName"));
-		              toTextMessage.setOnTime(String.valueOf((new Date()).getTime()/1000));
 		              SendMessage(toTextMessage);
 		          }else{
 		        	  ToTextMessage toTextMessage = new ToTextMessage();
-		              toTextMessage.setContent("请输入1或者2");
+		              toTextMessage.setContent("目前平台功能如下：\n【1】查天气，如输入：济南天气\n【2】 查公交，如输入：济南公交119\n【3】翻译，如输入：翻译I love you\n更多内容，敬请期待...");
 		              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
 		              toTextMessage.setFromUserName(root.elementText("FromUserName"));
 		              toTextMessage.setToUserName(root.elementText("ToUserName"));
-		              toTextMessage.setOnTime(String.valueOf((new Date()).getTime()/1000));
 		              SendMessage(toTextMessage);
-		          }
+		          }*/
 		        }
 		        if ("event".equals(msgType))
 		        {
 		          if("subscribe".equals(root.elementText("Event"))){
 		        	  ToTextMessage toTextMessage = new ToTextMessage();
-		              toTextMessage.setContent("谢谢关注!!!");
+		              toTextMessage.setContent("感谢您关注【mzai】\n微信号：mzai\n目前平台功能如下：\n【1】查天气，如输入：济南天气\n【2】 查公交，如输入：公交济南 119\n【3】翻译，如输入：翻译I love you\n更多内容，敬请期待...");
 		              toTextMessage.setCreateTime(String.valueOf((new Date()).getTime()/1000));
 		              toTextMessage.setFromUserName(root.elementText("FromUserName"));
 		              toTextMessage.setToUserName(root.elementText("ToUserName"));
-		              toTextMessage.setOnTime(String.valueOf((new Date()).getTime()/1000));
 		              SendMessage(toTextMessage);
 		          }
 	        }
@@ -161,24 +217,15 @@ public class WeiXin
 	}
   
 
-  //发送文本消息
-  public void SendMessage(ToTextMessage toTextMessage)
+  //发送消息
+  public void SendMessage(ToMessage msg)
     throws IOException
   {
-	  out.write(WeixinUtil.OutFormatMsg(toTextMessage));
+	    out.write(msg.initMsgStr());
 	    out.flush();
 	    out.close();
   }
   
-  //发送图文消息
-  public void SendMessage(ToNewsMessage toNewsMessage) throws IOException{
-	  out.write(WeixinUtil.OutFormatMsg(toNewsMessage));
-	    out.flush();
-	    out.close();
-  }
-
-  
-
 //  public void SendMessage(ToMusicMessage toMusicMessage)
 //    throws IOException
 //  {
@@ -202,7 +249,7 @@ public class WeiXin
 
   
 
-//验证请求来源于微信服务器
+  //验证请求来源于微信服务器
   boolean checkSignature(HttpServletRequest request, String token)
   {
     String signature = request.getParameter("signature")==null?"":request.getParameter("signature");
