@@ -10,6 +10,20 @@ public class ToMusicMessage extends ToMediaMessage
     super.setMsgType("music");
   }
 
+  /**
+   * 构造方法
+   * @param fromMessage
+   * @param title
+   * @param description
+   * @param musicUrl
+   * @param hQMusicUrl
+   */
+  public ToMusicMessage(FromMessage fromMessage,String title,String description,String musicUrl,String hQMusicUrl){
+	  super(fromMessage,title,description);
+	  super.setMsgType("music");
+	  this.setMusicUrl(musicUrl);
+	  this.sethQMusicUrl(hQMusicUrl);
+  }
   public String getMusicUrl()
   {
     return this.musicUrl;

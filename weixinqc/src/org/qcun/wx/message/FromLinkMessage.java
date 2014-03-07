@@ -1,6 +1,6 @@
 package org.qcun.wx.message;
 
-public class FromLinkMessage extends FromMessageMsgId
+public class FromLinkMessage extends FromMessageWithMsgId
 {
   private String title;
   private String description;

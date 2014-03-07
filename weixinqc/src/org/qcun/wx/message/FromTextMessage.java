@@ -1,5 +1,5 @@
 package org.qcun.wx.message;
-public class FromTextMessage extends FromMessageMsgId
+public class FromTextMessage extends FromMessageWithMsgId
 {
   private String content;
 
