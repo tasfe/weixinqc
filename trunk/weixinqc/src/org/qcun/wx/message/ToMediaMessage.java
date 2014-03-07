@@ -1,36 +1,45 @@
 package org.qcun.wx.message;
 
-import org.qcun.wx.util.WeixinUtil;
 
-public class ToMediaMessage extends ToMessage
-{
-  private String title;
-  private String description;
+public class ToMediaMessage extends ToMessage {
+	private String title;
+	private String description;
 
-  public ToMediaMessage()
-  {
-    super.setMsgType("media");
-  }
+	public ToMediaMessage() {
+		super.setMsgType("media");
+	}
 
-  public String getTitle()
-  {
-    return this.title;
-  }
+	/**
+	 * 构造方法
+	 * @param fromMessage
+	 * @param title
+	 * @param description
+	 */
+	public ToMediaMessage(FromMessage fromMessage, String title, String description) {
+		super(fromMessage);
+		super.setMsgType("media");
+		this.title = title;
+		this.description = description;
+	}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	public String getTitle() {
+		return this.title;
+	}
 
-  public String getDescription() {
-    return this.description;
-  }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public String getDescription() {
+		return this.description;
+	}
 
-@Override
-protected String initMsgStr() {
-	return "";
-}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Override
+	protected String initMsgStr() {
+		return "";
+	}
 }

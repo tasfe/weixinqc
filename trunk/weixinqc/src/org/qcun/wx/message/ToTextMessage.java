@@ -10,6 +10,16 @@ public class ToTextMessage extends ToMessage
   {
     super.setMsgType("text");
   }
+  /**
+   * 构造方法
+   * @param fromMessage
+   * @param content
+   */
+  public ToTextMessage(FromMessage fromMessage,String content){
+	  super(fromMessage);
+	  super.setMsgType("text");
+	  this.setContent(content);
+  }
 
   public String getContent()
   {
@@ -21,6 +31,8 @@ public class ToTextMessage extends ToMessage
     this.content = content;
   }
 
+  
+  
 	@Override
 	protected String initMsgStr() {
 		String str = WeixinUtil.OutFormatMsg(this);

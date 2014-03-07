@@ -1,6 +1,6 @@
 package org.qcun.wx.message;
 
-public class FromLocationMessage extends FromMessageMsgId
+public class FromLocationMessage extends FromMessageWithMsgId
 {
   private double location_X;
   private double location_Y;

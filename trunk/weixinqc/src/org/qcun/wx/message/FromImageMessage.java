@@ -1,6 +1,6 @@
 package org.qcun.wx.message;
 
-public class FromImageMessage extends FromMessageMsgId
+public class FromImageMessage extends FromMessageWithMsgId
 {
   private String picUrl;
 

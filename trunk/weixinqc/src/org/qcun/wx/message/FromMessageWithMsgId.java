@@ -1,6 +1,6 @@
 package org.qcun.wx.message;
 
-public abstract class FromMessageMsgId extends FromMessage
+public abstract class FromMessageWithMsgId extends FromMessage
 {
   private double msgId;
 

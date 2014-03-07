@@ -6,6 +6,14 @@ public class FromMessage
   private String msgType;
   private String createTime;
 
+  
+  public FromMessage(){}
+  public FromMessage(String toUserName,String fromUserName,String msgType,String createTime){
+	  this.toUserName = toUserName;
+	  this.fromUserName = fromUserName;
+	  this.msgType = msgType;
+	  this.createTime = createTime;
+  }
   public String getToUserName()
   {
     return this.toUserName;
