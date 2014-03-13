@@ -38,8 +38,4 @@ public class ToMediaMessage extends ToMessage {
 		this.description = description;
 	}
 
-	@Override
-	protected String initMsgStr() {
-		return "";
-	}
 }

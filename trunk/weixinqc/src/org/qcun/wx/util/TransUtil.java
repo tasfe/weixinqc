@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class TransUtil {
@@ -87,12 +86,10 @@ public class TransUtil {
 				result.append("不支持的语言类型");
 				break;
 			case 50:
-				result.append("无效的key").append(
-						"<a href='weixin://addfriend/maytWX'>请联系作者</a>");
+				result.append("无效的key").append(WeixinUtil.STR_CONTACT);
 				break;
 			default:
-				result.append("出现异常.errorCode:").append(errorCode).append(
-						"<a href='weixin://addfriend/maytWX'>请联系作者</a>");
+				result.append("出现异常.errorCode:").append(errorCode).append(WeixinUtil.STR_CONTACT);
 				break;
 			}
 		} catch (Exception e) {
@@ -100,7 +97,7 @@ public class TransUtil {
 		}
 		if (result == null || "".equals(result.toString())) {
 			result.append("没有得到翻译结果，").append(
-					"<a href='weixin://addfriend/maytWX'>请联系作者</a>");
+					WeixinUtil.STR_CONTACT);
 		}
 		return result.toString();
 	}

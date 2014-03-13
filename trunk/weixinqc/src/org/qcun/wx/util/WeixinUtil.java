@@ -12,7 +12,8 @@ import org.qcun.wx.message.ToTextMessage;
 
 public final class WeixinUtil {
 	public final static String STR_THANKS = "谢谢您的关注和支持\n";
-	public final static String STR_FUNCTIONS = "目前功能如下：\n查天气，如输入：济南天气\n 查公交，如输入：公交济南 119\n翻译，如输入：翻译I love you\n更多内容，敬请期待...";
+	public final static String STR_FUNCTIONS = "目前功能如下：\n*查天气，如输入：济南天气\n*查公交，如输入：公交济南 119\n*翻译，如输入：翻译I love you\n*更多内容，敬请期待...";
+	public final static String STR_CONTACT = "<a href='weixin://addfriend/maytWX'>请联系作者</a>或加入<a href='http://url.cn/QeKVml'>微信爱好QQ群</a>";
 	public static String OutFormatMsg(ToTextMessage toTextMessage) {
 		String textTpl = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><FromUserName><![CDATA[%2$s]]></FromUserName><CreateTime>%3$s</CreateTime><MsgType><![CDATA[%4$s]]></MsgType><Content><![CDATA[%5$s]]></Content><FuncFlag>0</FuncFlag></xml>";
 

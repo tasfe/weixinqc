@@ -2,40 +2,30 @@ package org.qcun.wx.message;
 
 import org.qcun.wx.util.WeixinUtil;
 
-public class ToTextMessage extends ToMessage
-{
-  private String content;
+public class ToTextMessage extends ToMessage {
+	private String content;
 
-  public ToTextMessage()
-  {
-    super.setMsgType("text");
-  }
-  /**
-   * 构造方法
-   * @param fromMessage
-   * @param content
-   */
-  public ToTextMessage(FromMessage fromMessage,String content){
-	  super(fromMessage);
-	  super.setMsgType("text");
-	  this.setContent(content);
-  }
+	public ToTextMessage() {
+		super.setMsgType("text");
+	}
 
-  public String getContent()
-  {
-    return this.content;
-  }
+	/**
+	 * 构造方法
+	 * 
+	 * @param fromMessage
+	 * @param content
+	 */
+	public ToTextMessage(FromMessage fromMessage, String content) {
+		super(fromMessage);
+		super.setMsgType("text");
+		this.content = content;
+	}
 
-  public void setContent(String content)
-  {
-    this.content = content;
-  }
+	public String getContent() {
+		return this.content;
+	}
 
-  
-  
-	@Override
-	protected String initMsgStr() {
-		String str = WeixinUtil.OutFormatMsg(this);
-		return str;
+	public String initReqStr() {
+		return WeixinUtil.OutFormatMsg(this);
 	}
 }

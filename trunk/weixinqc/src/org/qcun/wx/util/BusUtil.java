@@ -116,8 +116,7 @@ public class BusUtil {
 			}
 		}
 		if (str == null || "".equals(str.toString())) {
-			str.append("没有查询到相关站点信息...").append(
-			"<a href='weixin://addfriend/maytWX'>请联系作者</a>");
+			str.append("没有查询到相关站点信息...").append(WeixinUtil.STR_CONTACT);
 		}
 		return str.toString();
 	}
