@@ -77,9 +77,9 @@ public class WeiXin {
 				e.printStackTrace();
 			}
 			if (document != null) {
-				ToMessage toMessage = dealDocument(document);
-				if (toMessage != null) {
-					SendMessage(toMessage);
+				String rStr = dealDocument(document);
+				if (!rStr.equals("") ){
+					SendMessage(rStr);
 				}
 			}
 		}
@@ -92,90 +92,28 @@ public class WeiXin {
 	 * @return ToMessage
 	 * @throws IOException
 	 */
-	private ToMessage dealDocument(Document document) throws IOException {
-		ToMessage toMessage = null;
+	private String dealDocument(Document document) throws IOException {
 		Element root = document.getRootElement();
 		String touser = root.elementText("ToUserName");
 		String fromuser = root.elementText("FromUserName");
 		String msgType = root.elementText("MsgType");
 		String createtime = root.elementText("CreateTime");
+		String msgId = root.elementText("MsgId");
 		FromMessage fromMessage = new FromMessage(touser, fromuser, msgType,
-				createtime);
+				createtime,msgId);
 		if ("text".equals(msgType)) {
-			toMessage = dealText(fromMessage, root);
+			return new TextMessage(fromMessage,root.elementText("Content")).deal();
 		}
-		if ("event".equals(msgType)) {
-			toMessage = dealEvent(fromMessage, root);
-		}
-		return toMessage;
+		return "";
 	}
-
-	/**
-	 * 处理文本消息
-	 * 
-	 * @param fromMessage
-	 * @param root
-	 * @return ToMessage
-	 * @throws IOException
-	 */
-	private ToMessage dealText(FromMessage fromMessage, Element root)
-			throws IOException {
-		String keyword = root.elementText("Content");
-		// 天气
-		if (keyword != null && !"".equals(keyword) && keyword.length() > 2) {
-			String tianqi = keyword.substring(keyword.length() - 2);
-			if ("天气".equals(tianqi)) {
-				String city = keyword.substring(0, keyword.length() - 2).trim();
-				String weather = WeatherUtil.getWeatherStr(city);
-				return new ToTextMessage(fromMessage, weather);
-			}
-		}
-		// 翻译
-		if (keyword != null && !"".equals(keyword) && keyword.length() > 2) {
-			String fanyi = keyword.substring(0, 2);
-			if ("翻译".equals(fanyi)) {
-				String str = keyword.substring(2).trim();
-				String result = TransUtil.getTransStr(str);
-				return new ToTextMessage(fromMessage, result);
-			}
-		}
-		// 公交
-		if (keyword != null && !"".equals(keyword) && keyword.length() > 2) {
-			String gongjiao = keyword.substring(0, 2);
-			if ("公交".equals(gongjiao)) {
-				String str = keyword.substring(2);
-				String result = BusUtil.getBuslineStr(str);
-				return new ToTextMessage(fromMessage, result);
-			}
-		}
-		return new ToTextMessage(fromMessage, WeixinUtil.STR_FUNCTIONS);
-	}
-
-	/**
-	 * 处理事件消息
-	 * 
-	 * @param fromMessage
-	 * @param root
-	 * @return ToMessage
-	 * @throws IOException
-	 */
-	private ToMessage dealEvent(FromMessage fromMessage, Element root)
-			throws IOException {
-		if ("subscribe".equals(root.elementText("Event"))) {
-			return new ToTextMessage(fromMessage, WeixinUtil.STR_THANKS
-					+ WeixinUtil.STR_FUNCTIONS);
-		}
-		return null;
-	}
-
 	/**
 	 * 发送消息
 	 * 
 	 * @param toMessage
 	 * @throws IOException
 	 */
-	private void SendMessage(ToMessage toMessage) throws IOException {
-		out.write(toMessage.initMsgStr());
+	private void SendMessage(String msgStr) throws IOException {
+		out.write(msgStr);
 		out.flush();
 		out.close();
 	}

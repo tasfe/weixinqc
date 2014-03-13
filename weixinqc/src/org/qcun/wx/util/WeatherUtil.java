@@ -253,8 +253,7 @@ public class WeatherUtil {
 		}
 
 		if ("".equals(str.toString()) || str == null) {
-			str.append("对不起，没有查询到").append(name).append("天气信息...").append(
-					"<a href='weixin://addfriend/maytWX'>请联系作者</a>");
+			str.append("对不起，没有查询到").append(name).append("天气信息...").append(WeixinUtil.STR_CONTACT);
 		}
 		return str.toString();
 	}

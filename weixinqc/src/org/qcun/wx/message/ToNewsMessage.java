@@ -26,9 +26,4 @@ public class ToNewsMessage extends ToMessage {
 		return this.articles;
 	}
 
-	@Override
-	protected String initMsgStr() {
-		String str = WeixinUtil.OutFormatMsg(this);
-		return str;
-	}
 }

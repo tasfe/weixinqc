@@ -1,49 +1,45 @@
 package org.qcun.wx.message;
-public class FromMessage
-{
-  private String toUserName;
-  private String fromUserName;
-  private String msgType;
-  private String createTime;
 
-  
-  public FromMessage(){}
-  public FromMessage(String toUserName,String fromUserName,String msgType,String createTime){
-	  this.toUserName = toUserName;
-	  this.fromUserName = fromUserName;
-	  this.msgType = msgType;
-	  this.createTime = createTime;
-  }
-  public String getToUserName()
-  {
-    return this.toUserName;
-  }
+public class FromMessage {
+	private String toUserName;
+	private String fromUserName;
+	private String msgType;
+	private String createTime;
+	private String msgId;
 
-  public String getFromUserName() {
-    return this.fromUserName;
-  }
+	public FromMessage() {
+	}
 
-  public String getMsgType() {
-    return this.msgType;
-  }
+	public FromMessage(String toUserName, String fromUserName, String msgType,
+			String createTime,String msgId) {
+		this.toUserName = toUserName;
+		this.fromUserName = fromUserName;
+		this.msgType = msgType;
+		this.createTime = createTime;
+		this.msgId = msgId;
+	}
 
-  public String getCreateTime() {
-    return this.createTime;
-  }
+	public String getToUserName() {
+		return this.toUserName;
+	}
 
-  protected void setToUserName(String toUserName) {
-    this.toUserName = toUserName;
-  }
+	public String getFromUserName() {
+		return this.fromUserName;
+	}
 
-  protected void setFromUserName(String fromUserName) {
-    this.fromUserName = fromUserName;
-  }
+	public String getMsgType() {
+		return this.msgType;
+	}
 
-  protected void setMsgType(String msgType) {
-    this.msgType = msgType;
-  }
+	public String getCreateTime() {
+		return this.createTime;
+	}
 
-  protected void setCreateTime(String createTime) {
-    this.createTime = createTime;
-  }
+	public String getMsgId(){
+		return this.msgId;
+	}
+	protected void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
+
 }
