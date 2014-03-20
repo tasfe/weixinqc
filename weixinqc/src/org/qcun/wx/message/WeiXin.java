@@ -104,6 +104,9 @@ public class WeiXin {
 		if ("text".equals(msgType)) {
 			return new TextMessage(fromMessage,root.elementText("Content")).deal();
 		}
+		if("location".equals(msgType)){
+			return new LocationMessage(fromMessage,new Location(root.elementText("Location_X"),root.elementText("Location_Y"),root.elementText("Scale"),root.elementText("Label"))).deal();
+		}
 		return "";
 	}
 	/**

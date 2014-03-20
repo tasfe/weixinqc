@@ -10,7 +10,9 @@ import java.util.Calendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.qcun.wx.message.Location;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -18,6 +20,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class WeatherUtil {
+	//百度天气调用密钥 
+	private static final String BAIDU_AK = "574ed1797710ec745bf966e1e807dbbe";
 	/**
 	 * 获取天气城市代码
 	 * 
@@ -126,6 +130,29 @@ public class WeatherUtil {
 		return str;
 	}
 
+	private static String getJsonByBaidu(Location location){
+		String str="";
+		try{
+			if(location != null){
+				URL url = new URL("http://api.map.baidu.com/telematics/v3/weather?location="+location.getLocationY()+","+location.getLocationX()+"&output=json&ak="+BAIDU_AK);
+				HttpURLConnection conn = (HttpURLConnection) url
+						.openConnection();
+				conn.setDoOutput(true);
+				conn.setRequestMethod("GET");
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						conn.getInputStream(), "UTF-8"));
+				String line;
+				while ((line = in.readLine()) != null) {
+					str += line;
+				}
+				in.close();
+				conn.disconnect();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
+	}
 	/**
 	 * 获取当天天气信息
 	 * 
@@ -231,6 +258,37 @@ public class WeatherUtil {
 		return str.toString();
 	}
 
+	public static String getStrByBaidu(Location location){
+		StringBuffer str = new StringBuffer();
+		String json = getJsonByBaidu(location);
+		if(json!=null && !"".equals(json)){
+			try{
+				JSONObject data = new JSONObject(json);
+				String status = data.getString("status");
+				if(status.equals("success")){
+					JSONArray results = data.getJSONArray("results");
+					JSONObject current = results.getJSONObject(0);
+					String currentCity = current.getString("currentCity");
+					str.append(currentCity).append("天气:\n");
+					JSONArray weather_data = current.getJSONArray("weather_data");
+					for(int i = 0; i < weather_data.length();i++){
+						String date = weather_data.getJSONObject(i).getString("date");
+						String weather = weather_data.getJSONObject(i).getString("weather");
+						String wind = weather_data.getJSONObject(i).getString("wind");
+						String temperature = weather_data.getJSONObject(i).getString("temperature");
+						str.append("★").append(date).append("\n");
+						str.append(" ¤").append(weather).append("\n");
+						str.append(" ¤").append(wind).append("\n");
+						str.append(" ¤").append(temperature).append("\n");
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return str.toString();
+	}
+	
 	/**
 	 * 获取天气
 	 * 
@@ -256,5 +314,8 @@ public class WeatherUtil {
 			str.append("对不起，没有查询到").append(name).append("天气信息...").append(WeixinUtil.STR_CONTACT);
 		}
 		return str.toString();
+	}
+	public static String getWeatherStr(Location location){
+		return getStrByBaidu(location);
 	}
 }
